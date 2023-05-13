@@ -61,7 +61,7 @@ class WindowsSingleInstance {
         }
 
         var dataSize = 16384;
-        var data = calloc<Int8>(dataSize);
+        var data = calloc<Uint8>(dataSize);
         final numRead = calloc<Uint32>();
         try {
           while (GetOverlappedResult(pipeHandle, overlap, numRead, 0) == 0) {
@@ -90,7 +90,8 @@ class WindowsSingleInstance {
     final bytes = bytesString.toNativeUtf8();
     final numWritten = malloc<Uint32>();
     try {
-      WriteFile(pipe, bytes, bytes.length, numWritten, nullptr);
+      WriteFile(
+          pipe, bytes as Pointer<Uint8>, bytes.length, numWritten, nullptr);
     } finally {
       free(numWritten);
       free(bytes);
